@@ -18,6 +18,7 @@ const CreditCardForm = () => {
   return (
     <div className={CSS.creditCardFormFrame}>
       <form className={CSS.creditCardForm}>
+        <div className={CSS.title}>Enter Your Credit Card Information</div>
         <div className={CSS.inputsFrame}>
           <CustomInput
             type="text"
