@@ -35,6 +35,7 @@ const validations = {
       // check if cvv2 is valid
       if (!creditCards.some(({ cvv2Regex }) => cvv2Regex.test(cvv2)))
         return [false, "Invalid CVV2."];
+      return [true];
     },
   },
 
@@ -74,7 +75,7 @@ const validations = {
       // check if valid year
       if (!/^20[0-9]{2}$/.test(expYear))
         return [false, "Expiration year is invalid."];
-      return true;
+      return [true];
     },
   },
 
