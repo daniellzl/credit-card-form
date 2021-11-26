@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useForm = ({ values: initialValues, validations }) => {
+const useForm = ({ values: initialValues, validations, inputFilters }) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState(
     Object.keys(validations).reduce((obj, key) => {
@@ -8,14 +8,17 @@ const useForm = ({ values: initialValues, validations }) => {
       return obj;
     }, {})
   );
-  const [isSubmittable, setIsSubmittable] = useState();
+  const [isSubmittable, setIsSubmittable] = useState(false);
 
   const handleInput = (key) => (event) => {
-    const { value } = event.target;
-    setValues({
-      ...values,
-      [key]: value,
-    });
+    let { value } = event.target;
+    let inputFilter = inputFilters[key];
+    if (inputFilter) value = inputFilter.filterer(value);
+    if (values[key] !== value)
+      setValues({
+        ...values,
+        [key]: value,
+      });
   };
 
   const handleFocus = (keys) => () => {
@@ -51,10 +54,10 @@ const useForm = ({ values: initialValues, validations }) => {
 
   const checkIfIsSubmittable = () => {
     let newErrors = getErrorsFromValidations(Object.keys(validations));
-    let errorsPresent = Object.values(newErrors).some(
-      (error) => error.length > 0
+    let newIsSubmittable = Object.values(newErrors).every(
+      (error) => error.length === 0
     );
-    setIsSubmittable(!errorsPresent);
+    if (isSubmittable !== newIsSubmittable) setIsSubmittable(newIsSubmittable);
   };
   useEffect(checkIfIsSubmittable, [values]);
 

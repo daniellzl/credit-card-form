@@ -69,7 +69,7 @@ export const validations = {
         for (let { vendor, cardNumberRegex, cvv2Regex } of creditCards) {
           if (cardNumberRegex.test(cardNumber)) {
             if (cvv2Regex.test(cvv2)) return [true];
-            else return [false, `Invalid ${vendor} CVV2`];
+            else return [false, `Invalid ${vendor} CVV2.`];
           }
         }
 
@@ -91,11 +91,7 @@ export const validations = {
       keys: ["expMonth"],
       validator: (expMonth) => {
         if (/^(0?[1-9]|1[012])$/.test(expMonth)) return [true];
-        else
-          return [
-            false,
-            "Expiration month is invalid (ex. '04' for April or '11' for November)",
-          ];
+        else return [false, "Expiration month is invalid."];
       },
     },
   ],
@@ -134,3 +130,25 @@ export const validations = {
     },
   ],
 };
+
+export const inputFilters = {
+  cardNumber: {
+    description: "Only numbers",
+    filterer: (value) => filterString(value, /[0-9]{0,16}/),
+  },
+  cvv2: {
+    description: "Only numbers",
+    filterer: (value) => filterString(value, /[0-9]{0,16}/),
+  },
+  expMonth: {
+    description: "Only numbers",
+    filterer: (value) => filterString(value, /[0-9]{0,2}/),
+  },
+  expYear: {
+    description: "Only numbers",
+    filterer: (value) => filterString(value, /[0-9]{0,4}/),
+  },
+};
+
+export const filterString = (string, regex) =>
+  (string.match(regex) || []).join("");

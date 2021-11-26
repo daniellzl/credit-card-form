@@ -1,4 +1,8 @@
-import { initialValues, validations } from "./credit-card-form.data.js";
+import {
+  initialValues,
+  validations,
+  inputFilters,
+} from "./credit-card-form.data.js";
 import CustomInput from "../custom-input/custom-input.component.jsx";
 import useForm from "../../hooks/use-form/use-form.hook.js";
 import CSS from "./credit-card-form.module.scss";
@@ -8,6 +12,7 @@ const CreditCardForm = () => {
     useForm({
       values: initialValues,
       validations: validations,
+      inputFilters: inputFilters,
     });
 
   const handleSubmit = (event) => {
@@ -24,6 +29,7 @@ const CreditCardForm = () => {
           <CustomInput
             type="text"
             label="Name"
+            maxLength="50"
             value={values.name}
             onInput={handleInput("name")}
             onFocus={handleFocus("name")}
