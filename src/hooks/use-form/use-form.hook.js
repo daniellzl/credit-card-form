@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useForm = ({ values: initialValues, validations, inputFilters }) => {
+const useForm = ({ values: initialValues, validations, formats }) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState(
     Object.keys(validations).reduce((obj, key) => {
@@ -12,9 +12,9 @@ const useForm = ({ values: initialValues, validations, inputFilters }) => {
 
   const handleInput = (key) => (event) => {
     let { value } = event.target;
-    let inputFilter = inputFilters[key];
-    if (inputFilter) value = inputFilter.filterer(value);
-    if (values[key] !== value)
+    let format = formats[key];
+    if (format) value = format.formatter(value);
+    if (value !== values[key])
       setValues({
         ...values,
         [key]: value,
@@ -38,25 +38,19 @@ const useForm = ({ values: initialValues, validations, inputFilters }) => {
 
   const getErrorsFromValidations = (keys) => {
     return keys.reduce((obj, key) => {
-      let scopedVals = validations[key];
-      obj[key] = "";
-      for (let val of scopedVals) {
-        let { keys: valKeys, validator } = val;
-        let mappedKeys = valKeys.map((valKey) => values[valKey]);
-        let [isValid, message] = validator(...mappedKeys);
-        if (isValid) continue;
-        obj[key] = message;
-        break;
-      }
+      let validation = validations[key];
+      if (!validation) return obj;
+      let { keys: valKeys, validator } = validation;
+      let values = valKeys.map((valKey) => values[valKey]);
+      let [isValid, message] = validator(...values);
+      if (!isValid) obj[key] = message;
       return obj;
     }, {});
   };
 
   const checkIfIsSubmittable = () => {
     let newErrors = getErrorsFromValidations(Object.keys(validations));
-    let newIsSubmittable = Object.values(newErrors).every(
-      (error) => error.length === 0
-    );
+    let newIsSubmittable = Object.values(newErrors).length === 0;
     if (isSubmittable !== newIsSubmittable) setIsSubmittable(newIsSubmittable);
   };
   useEffect(checkIfIsSubmittable, [values]);

@@ -1,126 +1,97 @@
 import creditCards from "../../config/creditCards.js";
 
 const validations = {
-  name: [
-    {
-      description: "Name is required.",
-      keys: ["name"],
-      validator: (name) => {
-        if (name.length > 0) return [true];
-        else return [false, "Name is required."];
-      },
+  name: {
+    description: "Name is required.",
+    keys: ["name"],
+    validator: (name) => {
+      // check if present
+      if (name.length > 0) return [true];
+      else return [false, "Name is required."];
     },
-  ],
-  cardNumber: [
-    {
-      description: "Card number is required.",
-      keys: ["cardNumber"],
-      validator: (cardNumber) => {
-        if (cardNumber.length > 0) return [true];
-        else return [false, "Card number is required."];
-      },
-    },
-    {
-      description: "Card number is valid.",
-      keys: ["cardNumber"],
-      validator: (cardNumber) => {
-        if (
-          creditCards.some(({ cardNumberRegex }) =>
-            cardNumberRegex.test(cardNumber)
-          )
-        )
-          return [true];
-        else return [false, "Invalid credit card number."];
-      },
-    },
-  ],
-  cvv2: [
-    {
-      description: "CVV2 is required.",
-      keys: ["cvv2"],
-      validator: (cvv2) => {
-        if (cvv2.length > 0) return [true];
-        else return [false, "CVV2 is required."];
-      },
-    },
-    {
-      description: "CVV2 is valid.",
-      keys: ["cvv2"],
-      validator: (cvv2) => {
-        if (creditCards.some(({ cvv2Regex }) => cvv2Regex.test(cvv2)))
-          return [true];
-        else return [false, "Invalid CVV2."];
-      },
-    },
-  ],
-  cardNumberAndCvv2: [
-    {
-      description: "Validate card and CVV2 combination.",
-      keys: ["cardNumber", "cvv2"],
-      validator: (cardNumber, cvv2) => {
-        for (let { vendor, cardNumberRegex, cvv2Regex } of creditCards) {
-          if (cardNumberRegex.test(cardNumber)) {
-            if (cvv2Regex.test(cvv2)) return [true];
-            else return [false, `Invalid ${vendor} CVV2.`];
-          }
-        }
+  },
 
-        return [false, "Invalid card and CVV2."];
-      },
+  cardNumber: {
+    keys: ["cardNumber"],
+    validator: (cardNumber) => {
+      // check if present
+      if (cardNumber.length === 0) return [false, "Card number is required."];
+      // check if card number is valid
+      if (
+        !creditCards.some(({ cardNumberRegex }) =>
+          cardNumberRegex.test(cardNumber)
+        )
+      )
+        return [false, "Invalid credit card number."];
+      return [true];
     },
-  ],
-  expMonth: [
-    {
-      description: "Expiration month is required.",
-      keys: ["expMonth"],
-      validator: (expMonth) => {
-        if (expMonth.length > 0) return [true];
-        else return [false, "Expiration month is required."];
-      },
+  },
+
+  cvv2: {
+    keys: ["cvv2"],
+    validator: (cvv2) => {
+      // check if present
+      if (cvv2.length === 0) return [false, "CVV2 is required."];
+      // check if cvv2 is valid
+      if (!creditCards.some(({ cvv2Regex }) => cvv2Regex.test(cvv2)))
+        return [false, "Invalid CVV2."];
     },
-    {
-      description: "Expiration month is valid.",
-      keys: ["expMonth"],
-      validator: (expMonth) => {
-        if (/^(0?[1-9]|1[012])$/.test(expMonth)) return [true];
-        else return [false, "Expiration month is invalid."];
-      },
+  },
+
+  cardNumberAndCvv2: {
+    keys: ["cardNumber", "cvv2"],
+    validator: (cardNumber, cvv2) => {
+      // check if card number and cvv2 are from a known card vendor
+      for (let { vendor, cardNumberRegex, cvv2Regex } of creditCards) {
+        if (cardNumberRegex.test(cardNumber)) {
+          if (cvv2Regex.test(cvv2)) return [true];
+          else return [false, `Invalid ${vendor} CVV2.`];
+        }
+      }
+
+      return [false, "Invalid card and CVV2."];
     },
-  ],
-  expYear: [
-    {
-      description: "Expiration year is required.",
-      keys: ["expYear"],
-      validator: (expYear) => {
-        if (expYear.length > 0) return [true];
-        else return [false, "Expiration year is required."];
-      },
+  },
+
+  expMonth: {
+    keys: ["expMonth"],
+    validator: (expMonth) => {
+      // check existence
+      if (expMonth.length === 0)
+        return [false, "Expiration month is required."];
+      // check if valid month
+      if (!/^(0?[1-9]|1[012])$/.test(expMonth))
+        return [false, "Expiration month is invalid."];
+      return [true];
     },
-    {
-      description: "Expiration year is valid.",
-      keys: ["expYear"],
-      validator: (expYear) => {
-        if (/^20[0-9]{2}$/.test(expYear)) return [true];
-        else return [false, "Expiration year is invalid."];
-      },
+  },
+
+  expYear: {
+    keys: ["expYear"],
+    validator: (expYear) => {
+      // check existence
+      if (expYear.length === 0) return [false, "Expiration year is required."];
+      // check if valid year
+      if (!/^20[0-9]{2}$/.test(expYear))
+        return [false, "Expiration year is invalid."];
+      return true;
     },
-  ],
-  expMonthAndYear: [
-    {
-      description: "Expiration date must be in the future.",
-      keys: ["expMonth", "expYear"],
-      validator: (expMonth, expYear) => {
-        let expDate = new Date(expYear, +expMonth - 1);
-        let currentDate = new Date(
-          new Date().getFullYear(),
-          new Date().getMonth()
-        );
-        if (expDate < currentDate)
-          return [false, "Expiration date must be in the future."];
-        else return [true];
-      },
+  },
+
+  expMonthAndYear: {
+    keys: ["expMonth", "expYear"],
+    validator: (expMonth, expYear) => {
+      // check if expiration date is in future
+      let expDate = new Date(expYear, +expMonth - 1);
+      let currentDate = new Date(
+        new Date().getFullYear(),
+        new Date().getMonth()
+      );
+      if (expDate < currentDate)
+        return [false, "Expiration date must be in the future."];
+      return [true];
     },
-  ],
+  },
 };
 
 export default validations;
