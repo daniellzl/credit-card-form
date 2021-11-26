@@ -64,7 +64,7 @@ const CreditCardForm = () => {
             <div className={CSS.cardNumberFrame}>
               <CustomInput
                 type="text"
-                maxLength="16"
+                maxLength="19"
                 label="Card Number"
                 value={values.cardNumber}
                 onInput={handleInput("cardNumber")}
