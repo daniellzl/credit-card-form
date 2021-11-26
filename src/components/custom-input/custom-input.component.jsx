@@ -6,7 +6,7 @@ const CustomInput = ({ label, ...otherProps }) => {
       <input className={CSS.customInput} {...otherProps} />
       <label
         className={`${CSS.customInputLabel}  ${
-          otherProps.value.length ? CSS.shrink : ""
+          otherProps.value?.length ? CSS.shrink : ""
         }`}
       >
         {label}
