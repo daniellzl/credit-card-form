@@ -28,6 +28,19 @@ export const validations = {
         else return [false, "Card number is required."];
       },
     },
+    {
+      description: "Card number is valid.",
+      keys: ["cardNumber"],
+      validator: (cardNumber) => {
+        if (
+          creditCards.some(({ cardNumberRegex }) =>
+            cardNumberRegex.test(cardNumber)
+          )
+        )
+          return [true];
+        else return [false, "Invalid credit card number."];
+      },
+    },
   ],
   cvv2: [
     {
@@ -36,6 +49,15 @@ export const validations = {
       validator: (cvv2) => {
         if (cvv2.length > 0) return [true];
         else return [false, "CVV2 is required."];
+      },
+    },
+    {
+      description: "CVV2 is valid.",
+      keys: ["cvv2"],
+      validator: (cvv2) => {
+        if (creditCards.some(({ cvv2Regex }) => cvv2Regex.test(cvv2)))
+          return [true];
+        else return [false, "Invalid CVV2."];
       },
     },
   ],
