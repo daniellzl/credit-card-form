@@ -41,8 +41,8 @@ const useForm = ({ values: initialValues, validations, formats }) => {
       let validation = validations[key];
       if (validation) {
         let { keys: valKeys, validator } = validation;
-        let values = valKeys.map((valKey) => values[valKey]);
-        let [isValid, message] = validator(...values);
+        let mappedKeys = valKeys.map((valKey) => values[valKey]);
+        let [isValid, message] = validator(...mappedKeys);
         if (!isValid) obj[key] = message;
       }
       return obj;
