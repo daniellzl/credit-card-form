@@ -62,7 +62,7 @@ const CreditCardForm = () => {
               <CustomInput
                 type="text"
                 maxLength="2"
-                label="Exp. Month"
+                label="Exp. Month (MM)"
                 value={values.expMonth}
                 handleInput={handleInput("expMonth")}
                 handleBlur={handleBlur(["expMonth", "expMonthAndYear"])}
@@ -72,7 +72,7 @@ const CreditCardForm = () => {
               <CustomInput
                 type="text"
                 maxLength="4"
-                label="Exp. Year"
+                label="Exp. Year (YYYY)"
                 value={values.expYear}
                 handleInput={handleInput("expYear")}
                 handleBlur={handleBlur(["expYear", "expMonthAndYear"])}
