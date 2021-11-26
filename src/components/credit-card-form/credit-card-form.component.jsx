@@ -1,6 +1,6 @@
 import { initialValues, validations } from "./credit-card-form.data.js";
 import CustomInput from "../custom-input/custom-input.component.jsx";
-import useForm from "../../hooks/useForm.js";
+import useForm from "../../hooks/use-form/use-form.hook.js";
 import CSS from "./credit-card-form.module.scss";
 
 const CreditCardForm = () => {
