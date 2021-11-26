@@ -1,14 +1,6 @@
 import creditCards from "../../config/creditCards.js";
 
-export const initialValues = {
-  name: "",
-  cardNumber: "",
-  cvv2: "",
-  expMonth: "",
-  expYear: "",
-};
-
-export const validations = {
+const validations = {
   name: [
     {
       description: "Name is required.",
@@ -131,24 +123,4 @@ export const validations = {
   ],
 };
 
-export const inputFilters = {
-  cardNumber: {
-    description: "Only numbers",
-    filterer: (value) => filterString(value, /[0-9]{0,16}/),
-  },
-  cvv2: {
-    description: "Only numbers",
-    filterer: (value) => filterString(value, /[0-9]{0,16}/),
-  },
-  expMonth: {
-    description: "Only numbers",
-    filterer: (value) => filterString(value, /[0-9]{0,2}/),
-  },
-  expYear: {
-    description: "Only numbers",
-    filterer: (value) => filterString(value, /[0-9]{0,4}/),
-  },
-};
-
-export const filterString = (string, regex) =>
-  (string.match(regex) || []).join("");
+export default validations;

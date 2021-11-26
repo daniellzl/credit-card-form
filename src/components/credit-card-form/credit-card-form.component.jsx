@@ -1,8 +1,6 @@
-import {
-  initialValues,
-  validations,
-  inputFilters,
-} from "./credit-card-form.data.js";
+import initialValues from "./credit-card-form.initial-values.js";
+import validations from "./credit-card-form.validations.js";
+import inputFilters from "./credit-card-form.input-filters.js";
 import CustomInput from "../custom-input/custom-input.component.jsx";
 import useForm from "../../hooks/use-form/use-form.hook.js";
 import CSS from "./credit-card-form.module.scss";
