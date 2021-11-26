@@ -4,7 +4,7 @@ import useForm from "../../hooks/use-form/use-form.hook.js";
 import CSS from "./credit-card-form.module.scss";
 
 const CreditCardForm = () => {
-  const [values, errors, handleInput, handleBlur, isValid] = useForm({
+  const [values, errors, handleInput, handleBlur, isSubmittable] = useForm({
     values: initialValues,
     validations: validations,
   });
@@ -80,16 +80,16 @@ const CreditCardForm = () => {
             </div>
           </div>
           <div className={CSS.errorFrame}>
-            {errors.expYear || errors.expMonth || errors.expMonthAndYear}
+            {errors.expMonth || errors.expYear || errors.expMonthAndYear}
           </div>
         </div>
         <div className={CSS.buttonFrame}>
           <input
             type="submit"
             value="Submit"
-            className={`${CSS.button} ${isValid() ? "" : CSS.disabled}`}
+            className={`${CSS.button} ${isSubmittable ? "" : CSS.disabled}`}
             onClick={handleSubmit}
-            disabled={!isValid()}
+            disabled={!isSubmittable}
           />
         </div>
       </form>

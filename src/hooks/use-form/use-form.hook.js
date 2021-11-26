@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const useForm = ({ values: initialValues, validations }) => {
   const [values, setValues] = useState(initialValues);
@@ -8,6 +8,7 @@ const useForm = ({ values: initialValues, validations }) => {
       return obj;
     }, {})
   );
+  const [isSubmittable, setIsSubmittable] = useState();
 
   const handleInput = (key) => (event) => {
     const { value } = event.target;
@@ -17,67 +18,38 @@ const useForm = ({ values: initialValues, validations }) => {
     });
   };
 
-  const handleBlur = (keys) => (event) => {
+  const handleBlur = (keys) => () => {
     if (typeof keys === "string") keys = [keys];
-
-    let validationErrors = {};
-
-    for (let key of keys) {
-      let scopedValidations = validations[key];
-
-      if (!scopedValidations || scopedValidations.length === 0) continue;
-
-      validationErrors[key] = "";
-
-      for (let validation of scopedValidations) {
-        let { keys, validator } = validation;
-        let mappedKeys = keys.map((argKey) => values[argKey]);
-        let [isValid, message] = validator(...mappedKeys);
-
-        if (!isValid) {
-          validationErrors[key] = message;
-          break;
-        }
-      }
-    }
-
+    let validationErrors = getErrorsFromValidations(keys);
     setErrors({ ...errors, ...validationErrors });
   };
 
-  const isValid = () => {
-    let validationErrors = getValidationErrors();
-    let noErrorsPresent = Object.values(validationErrors).every(
-      (error) => error.length === 0
-    );
-    return noErrorsPresent;
-  };
-
-  const getValidationErrors = () => {
-    let result = {};
-
-    for (let [validationKey, scopedValidations] of Object.entries(
-      validations
-    )) {
-      let isErrorFree = true;
-
-      for (let validation of scopedValidations) {
-        let { keys, validator } = validation;
-        let mappedKeys = keys.map((key) => values[key]);
+  const getErrorsFromValidations = (keys) => {
+    return keys.reduce((obj, key) => {
+      let scopedVals = validations[key];
+      obj[key] = "";
+      for (let val of scopedVals) {
+        let { keys: valKeys, validator } = val;
+        let mappedKeys = valKeys.map((valKey) => values[valKey]);
         let [isValid, message] = validator(...mappedKeys);
-        if (!isValid) {
-          isErrorFree = false;
-          result[validationKey] = message;
-          break;
-        }
+        if (isValid) continue;
+        obj[key] = message;
+        break;
       }
-
-      if (isErrorFree) result[validationKey] = "";
-    }
-
-    return result;
+      return obj;
+    }, {});
   };
 
-  return [values, errors, handleInput, handleBlur, isValid];
+  const checkIfIsSubmittable = () => {
+    let newErrors = getErrorsFromValidations(Object.keys(validations));
+    let errorsPresent = Object.values(newErrors).some(
+      (error) => error.length > 0
+    );
+    setIsSubmittable(!errorsPresent);
+  };
+  useEffect(checkIfIsSubmittable, [values]);
+
+  return [values, errors, handleInput, handleBlur, isSubmittable];
 };
 
 export default useForm;
