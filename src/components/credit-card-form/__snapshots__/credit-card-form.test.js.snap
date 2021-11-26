@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`expect to render CreditCardForm component 1`] = `
+<div
+  className="creditCardFormFrame"
+>
+  <form
+    className="creditCardForm"
+  >
+    <div
+      className="title"
+    >
+      Enter Your Credit Card Information
+    </div>
+    <div
+      className="inputsFrame"
+    >
+      <CustomInput
+        label="Name"
+        maxLength="50"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onInput={[Function]}
+        type="text"
+        value=""
+      />
+      <div
+        className="errorFrame"
+      />
+    </div>
+    <div
+      className="inputsFrame"
+    >
+      <div
+        className="cardNumberAndCvv2Frame"
+      >
+        <div
+          className="cardNumberFrame"
+        >
+          <CustomInput
+            label="Card Number"
+            maxLength="19"
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onInput={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="cvv2Frame"
+        >
+          <CustomInput
+            label="CVV2"
+            maxLength="4"
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onInput={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+      <div
+        className="errorFrame"
+      />
+    </div>
+    <div
+      className="inputsFrame"
+    >
+      <div
+        className="expMonthAndYearFrame"
+      >
+        <div
+          className="expMonthFrame"
+        >
+          <CustomInput
+            label="Exp. Month (MM)"
+            maxLength="2"
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onInput={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="expYearFrame"
+        >
+          <CustomInput
+            label="Exp. Year (YYYY)"
+            maxLength="4"
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onInput={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+      <div
+        className="errorFrame"
+      />
+    </div>
+    <div
+      className="buttonFrame"
+    >
+      <input
+        className="button disabled"
+        disabled={true}
+        onClick={[Function]}
+        type="submit"
+        value="Submit"
+      />
+    </div>
+  </form>
+</div>
+`;

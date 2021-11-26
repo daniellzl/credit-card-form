@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`expect to render CustomInput component 1`] = `
+<div
+  className="customInputFrame"
+>
+  <input
+    className="customInput"
+  />
+  <label
+    className="customInputLabel  "
+  />
+</div>
+`;
