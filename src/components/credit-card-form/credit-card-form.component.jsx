@@ -6,12 +6,18 @@ import useForm from "../../hooks/use-form/use-form.hook.js";
 import CSS from "./credit-card-form.module.scss";
 
 const CreditCardForm = () => {
-  const [values, errors, handleInput, handleFocus, handleBlur, isSubmittable] =
-    useForm({
-      values: initialValues,
-      validations: validations,
-      inputFilters: inputFilters,
-    });
+  const {
+    values,
+    errors,
+    handleInput,
+    handleFocus,
+    handleBlur,
+    isSubmittable,
+  } = useForm({
+    values: initialValues,
+    validations: validations,
+    inputFilters: inputFilters,
+  });
 
   const handleSubmit = (event) => {
     event.preventDefault();

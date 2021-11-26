@@ -61,7 +61,14 @@ const useForm = ({ values: initialValues, validations, inputFilters }) => {
   };
   useEffect(checkIfIsSubmittable, [values]);
 
-  return [values, errors, handleInput, handleFocus, handleBlur, isSubmittable];
+  return {
+    values,
+    errors,
+    handleInput,
+    handleFocus,
+    handleBlur,
+    isSubmittable,
+  };
 };
 
 export default useForm;
