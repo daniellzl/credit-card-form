@@ -18,6 +18,15 @@ const useForm = ({ values: initialValues, validations }) => {
     });
   };
 
+  const handleFocus = (keys) => () => {
+    if (typeof keys === "string") keys = [keys];
+    let clearErrors = keys.reduce((obj, key) => {
+      obj[key] = "";
+      return obj;
+    }, {});
+    setErrors({ ...errors, ...clearErrors });
+  };
+
   const handleBlur = (keys) => () => {
     if (typeof keys === "string") keys = [keys];
     let validationErrors = getErrorsFromValidations(keys);
@@ -49,7 +58,7 @@ const useForm = ({ values: initialValues, validations }) => {
   };
   useEffect(checkIfIsSubmittable, [values]);
 
-  return [values, errors, handleInput, handleBlur, isSubmittable];
+  return [values, errors, handleInput, handleFocus, handleBlur, isSubmittable];
 };
 
 export default useForm;

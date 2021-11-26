@@ -1,14 +1,9 @@
 import CSS from "./custom-input.module.scss";
 
-const CustomInput = ({ handleInput, handleBlur, label, ...otherProps }) => {
+const CustomInput = ({ label, ...otherProps }) => {
   return (
     <div className={CSS.customInputFrame}>
-      <input
-        className={CSS.customInput}
-        onInput={handleInput}
-        onBlur={handleBlur}
-        {...otherProps}
-      />
+      <input className={CSS.customInput} {...otherProps} />
       <label
         className={`${CSS.customInputLabel}  ${
           otherProps.value.length ? CSS.shrink : ""

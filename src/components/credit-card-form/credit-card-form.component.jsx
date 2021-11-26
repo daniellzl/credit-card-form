@@ -4,10 +4,11 @@ import useForm from "../../hooks/use-form/use-form.hook.js";
 import CSS from "./credit-card-form.module.scss";
 
 const CreditCardForm = () => {
-  const [values, errors, handleInput, handleBlur, isSubmittable] = useForm({
-    values: initialValues,
-    validations: validations,
-  });
+  const [values, errors, handleInput, handleFocus, handleBlur, isSubmittable] =
+    useForm({
+      values: initialValues,
+      validations: validations,
+    });
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -24,8 +25,9 @@ const CreditCardForm = () => {
             type="text"
             label="Name"
             value={values.name}
-            handleInput={handleInput("name")}
-            handleBlur={handleBlur("name")}
+            onInput={handleInput("name")}
+            onFocus={handleFocus("name")}
+            onBlur={handleBlur("name")}
           />
           <div className={CSS.errorFrame}>{errors.name}</div>
         </div>
@@ -37,8 +39,9 @@ const CreditCardForm = () => {
                 maxLength="16"
                 label="Card Number"
                 value={values.cardNumber}
-                handleInput={handleInput("cardNumber")}
-                handleBlur={handleBlur(["cardNumber", "cardNumberAndCvv2"])}
+                onInput={handleInput("cardNumber")}
+                onFocus={handleFocus(["cardNumber", "cardNumberAndCvv2"])}
+                onBlur={handleBlur(["cardNumber", "cardNumberAndCvv2"])}
               />
             </div>
             <div className={CSS.cvv2Frame}>
@@ -47,8 +50,9 @@ const CreditCardForm = () => {
                 maxLength="4"
                 label="CVV2"
                 value={values.cvv2}
-                handleInput={handleInput("cvv2")}
-                handleBlur={handleBlur(["cvv2", "cardNumberAndCvv2"])}
+                onInput={handleInput("cvv2")}
+                onFocus={handleFocus(["cvv2", "cardNumberAndCvv2"])}
+                onBlur={handleBlur(["cvv2", "cardNumberAndCvv2"])}
               />
             </div>
           </div>
@@ -64,8 +68,9 @@ const CreditCardForm = () => {
                 maxLength="2"
                 label="Exp. Month (MM)"
                 value={values.expMonth}
-                handleInput={handleInput("expMonth")}
-                handleBlur={handleBlur(["expMonth", "expMonthAndYear"])}
+                onInput={handleInput("expMonth")}
+                onFocus={handleFocus(["expMonth", "expMonthAndYear"])}
+                onBlur={handleBlur(["expMonth", "expMonthAndYear"])}
               />
             </div>
             <div className={CSS.expYearFrame}>
@@ -74,8 +79,9 @@ const CreditCardForm = () => {
                 maxLength="4"
                 label="Exp. Year (YYYY)"
                 value={values.expYear}
-                handleInput={handleInput("expYear")}
-                handleBlur={handleBlur(["expYear", "expMonthAndYear"])}
+                onInput={handleInput("expYear")}
+                onFocus={handleFocus(["expYear", "expMonthAndYear"])}
+                onBlur={handleBlur(["expYear", "expMonthAndYear"])}
               />
             </div>
           </div>
