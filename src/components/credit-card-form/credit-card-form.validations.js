@@ -49,7 +49,6 @@ const validations = {
           else return [false, `Invalid ${vendor} CVV2.`];
         }
       }
-
       return [false, "Invalid card and CVV2."];
     },
   },
