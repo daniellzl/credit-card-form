@@ -1,9 +1,26 @@
-import initialValues from "./credit-card-form.initial-values.js";
 import validations from "./credit-card-form.validations.js";
 import formats from "./credit-card-form.formats.js";
 import CustomInput from "../custom-input/custom-input.component.jsx";
 import useForm from "../../hooks/use-form/use-form.hook.js";
 import CSS from "./credit-card-form.module.scss";
+
+const INITIAL_VALUES = {
+  name: "",
+  cardNumber: "",
+  cvv2: "",
+  expMonth: "",
+  expYear: "",
+};
+
+const INITIAL_ERRORS = {
+  name: "",
+  cardNumber: "",
+  cvv2: "",
+  cardNumberAndCvv2: "",
+  expMonth: "",
+  expYear: "",
+  expMonthAndYear: "",
+};
 
 const CreditCardForm = () => {
   const {
@@ -14,7 +31,8 @@ const CreditCardForm = () => {
     handleBlur,
     isSubmittable,
   } = useForm({
-    values: initialValues,
+    values: INITIAL_VALUES,
+    errors: INITIAL_ERRORS,
     validations: validations,
     formats: formats,
   });

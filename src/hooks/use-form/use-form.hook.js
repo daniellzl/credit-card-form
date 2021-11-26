@@ -39,11 +39,12 @@ const useForm = ({ values: initialValues, validations, formats }) => {
   const getErrorsFromValidations = (keys) => {
     return keys.reduce((obj, key) => {
       let validation = validations[key];
-      if (!validation) return obj;
-      let { keys: valKeys, validator } = validation;
-      let values = valKeys.map((valKey) => values[valKey]);
-      let [isValid, message] = validator(...values);
-      if (!isValid) obj[key] = message;
+      if (validation) {
+        let { keys: valKeys, validator } = validation;
+        let values = valKeys.map((valKey) => values[valKey]);
+        let [isValid, message] = validator(...values);
+        if (!isValid) obj[key] = message;
+      }
       return obj;
     }, {});
   };
