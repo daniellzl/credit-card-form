@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 
-const useForm = ({ values: initialValues, validations, formats }) => {
+const useForm = ({
+  values: initialValues,
+  errors: initialErrors,
+  validations,
+  formats,
+}) => {
   const [values, setValues] = useState(initialValues);
-  const [errors, setErrors] = useState(
-    Object.keys(validations).reduce((obj, key) => {
-      obj[key] = "";
-      return obj;
-    }, {})
-  );
+  const [errors, setErrors] = useState(initialErrors);
   const [isSubmittable, setIsSubmittable] = useState(false);
 
   const handleInput = (key) => (event) => {
