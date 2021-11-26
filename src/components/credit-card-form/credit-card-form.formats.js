@@ -1,32 +1,35 @@
-const filterString = (string, regex) => (string.match(regex) || []).join("");
+import creditCards from "../../config/creditCards.js";
 
 const formats = {
   cardNumber: {
     keys: ["cardNumber"],
     formatter: (value) => {
-      // numbers only
-      value = filterString(value, /[0-9]{0,16}/);
-      // add spaces between every 4th digit
-      let newValue = [];
-      for (let begin = 0, end = 4; begin < value.length; begin += 4, end += 4)
-        newValue.push(value.slice(begin, end));
-      return newValue.join(" ");
+      value = value.replace(/\D/g, "");
+      for (let creditCard of creditCards) {
+        let { formatter } = creditCard;
+        let formattedValue = formatter(value);
+        if (formattedValue.length > 0) {
+          value = formattedValue;
+          break;
+        }
+      }
+      return value;
     },
   },
 
   cvv2: {
     keys: ["cvv2"],
-    formatter: (value) => filterString(value, /[0-9]{0,16}/),
+    formatter: (value) => value.replace(/\D/g, ""),
   },
 
   expMonth: {
     keys: ["expMonth"],
-    formatter: (value) => filterString(value, /[0-9]{0,2}/),
+    formatter: (value) => value.replace(/\D/g, ""),
   },
 
   expYear: {
     keys: ["expYear"],
-    formatter: (value) => filterString(value, /[0-9]{0,4}/),
+    formatter: (value) => value.replace(/\D/g, ""),
   },
 };
 
